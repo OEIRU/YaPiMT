@@ -1,0 +1,10 @@
+int
+bool
+if
+else
+for
+while
+return
+break
+true
+false

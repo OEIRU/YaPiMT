@@ -5,12 +5,15 @@
 int main() {
     TCONTROLLER tcontroller;
 
-    tcontroller.load_static_table(TABLE_TYPE::ALPHABET, "tables/alphabet.txt");
-    tcontroller.load_static_table(TABLE_TYPE::WORDS, "tables/words.txt");
-    tcontroller.load_static_table(TABLE_TYPE::OPERATORS, "tables/operators.txt");
-    tcontroller.load_static_table(TABLE_TYPE::SYMBOLS, "tables/symbols.txt");
+    tcontroller.statics.load_static_table(TABLE_TYPE::ALPHABET, "tables/alphabet.txt");
+    tcontroller.statics.load_static_table(TABLE_TYPE::WORDS, "tables/words.txt");
+    tcontroller.statics.load_static_table(TABLE_TYPE::OPERATORS, "tables/operators.txt");
+    tcontroller.statics.load_static_table(TABLE_TYPE::SYMBOLS, "tables/symbols.txt");
 
-    auto res = tcontroller.search(TABLE_TYPE::ALPHABET, "X");
-    cout << res;
-    res;
+    // auto res = tcontroller.search("Xdjesf");
+    // cout << res;
+    // res;
+    tcontroller.dynamics.init("x", BASE_TYPE::BOOL);
+    tcontroller.dynamics.init("y", BASE_TYPE::FLOAT);
+    auto var = tcontroller.dynamics.search("x");;
 }

@@ -1,5 +1,4 @@
-#ifndef TCONTROLLER_EXCEPTIONS
-#define TCONTROLLER_EXCEPTIONS
+#pragma once
 
 #include <string>
 
@@ -15,5 +14,3 @@ private:
     string message;
     const string PREFIX = "Variable error";
 };
-
-#endif

@@ -1,7 +1,7 @@
-float
-char
 bool
-if
+char
 else
-true
 false
+float
+if
+true

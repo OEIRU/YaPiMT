@@ -5,9 +5,9 @@
 using namespace std;
 
 enum BASE_TYPE {
-    BOOL    = 1,
-    FLOAT   = 2,
-    CHAR    = 3
+    BOOL = 1,
+    FLOAT = 2,
+    CHAR = 3
 };
 
 typedef struct TVARIABLE {

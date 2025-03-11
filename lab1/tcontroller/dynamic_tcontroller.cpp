@@ -23,6 +23,20 @@ void DYNAMIC_TCONTROLLER::setup_file(string file_name) {
     insert_mode = false;
 }
 
+void DYNAMIC_TCONTROLLER::modify(string name, BASE_TYPE new_type, unsigned long new_scope) {
+    if (!contains(name)) {
+        throw variable_exception("Variable '" + name + "' not found");
+    }
+    
+    TVARIABLE& tvariable = tvariables[name];
+
+
+    tvariable.type = new_type;
+    tvariable.scope = new_scope;
+
+    save("tables/variables.txt", name);
+}
+
 void DYNAMIC_TCONTROLLER::init(string name, BASE_TYPE type, unsigned long scope) {
     if (contains(name)) {
         throw variable_exception("cannot redeclare variable");
@@ -33,14 +47,13 @@ void DYNAMIC_TCONTROLLER::init(string name, BASE_TYPE type, unsigned long scope)
     tvariable.type = type;
 
     tvariables.insert(name, tvariable);
-    
+
     last_index += 1;
 
     if (!insert_mode) {
         file << name << " " << tvariable.to_string() << endl;
         file.flush();
     }
-    // save();
 }
 
 bool DYNAMIC_TCONTROLLER::contains(const string& element) {
@@ -55,8 +68,30 @@ TVARIABLE& DYNAMIC_TCONTROLLER::search(const string& element, bool& found) {
     return tvariables.get(element, found);
 }
 
-void DYNAMIC_TCONTROLLER::save() {
-    if (insert_mode == true) return;
-    file.clear();
-    file << tvariables.to_string();
+void DYNAMIC_TCONTROLLER::save(const string& filename, const string& name) {
+    if (insert_mode) return;
+
+    vector<string> lines;
+    string line;
+
+    ifstream in_file(filename);
+    if (in_file.is_open()) {
+        while (getline(in_file, line)) {
+            istringstream iss(line);
+            string key;
+            iss >> key;
+            if (key == name) {
+                TVARIABLE& tvariable = tvariables[name];
+                line = name + " " + tvariable.to_string();
+            }
+            lines.push_back(line);
+        }
+        in_file.close();
+    }
+
+    ofstream out_file(filename, ios::trunc);
+    for (const string& l : lines) {
+        out_file << l << endl;
+    }
+    out_file.close();
 }

@@ -12,14 +12,15 @@ using namespace std;
 
 // ========================== STATIC TABLES ==============================
 enum TABLE_TYPE {
-    ALPHABET    = 10, 
-    WORDS       = 20, 
-    OPERATORS   = 30, 
-    SYMBOLS     = 40
+    ALPHABET = 10,
+    WORDS = 20,
+    OPERATORS = 30,
+    SYMBOLS = 40
 };
 
 class STATIC_TCONTROLLER {
 public:
+    int binary_search(const vector<string>& table, const string& element);
     void load_static_table(TABLE_TYPE ttype, const string& filename);
     int search(TABLE_TYPE ttype, const string& element);
     int search(TABLE_TYPE ttype, const string& element, bool& found);
@@ -37,11 +38,12 @@ private:
 class DYNAMIC_TCONTROLLER {
 public:
     void setup_file(string file_name);
+    void modify(string name, BASE_TYPE new_type, unsigned long new_scope);
     void init(string name, BASE_TYPE type, unsigned long scope);
     TVARIABLE& search(const string& element);
     TVARIABLE& search(const string& element, bool& found);
     bool contains(const string& element);
-    void save();
+    void save(const string& filename, const string& name);
 private:
     HASHMAP<TVARIABLE> tvariables;
     fstream file;
@@ -55,5 +57,3 @@ public:
     STATIC_TCONTROLLER statics;
     DYNAMIC_TCONTROLLER dynamics;
 };
-
-// #endif

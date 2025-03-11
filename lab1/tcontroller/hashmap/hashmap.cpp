@@ -86,7 +86,7 @@ template <typename T>
 T& HASHMAP<T>::get(const string& key) {
     bool found;
     T& res = get(key, found);
-    if (!found) 
+    if (!found)
         throw runtime_error("Variable \"" + key + "\" is not declared");
     return res;
 }
@@ -106,7 +106,8 @@ bool HASHMAP<T>::remove(const string& key) {
         if (current->key == key) {
             if (prev) {
                 prev->next = current->next;
-            } else {
+            }
+            else {
                 buckets[index] = current->next;
             }
             delete current;
@@ -151,7 +152,7 @@ string HASHMAP<T>::to_string() {
 template <typename T>
 string HASHMAP<T>::Node::to_string() {
     stringstream res;
-    res << key                  << " "
+    res << key << " "
         << value.to_string();
     return res.str();
 }

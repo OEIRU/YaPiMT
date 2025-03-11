@@ -43,3 +43,4 @@ public:
     size_t getSize() const { return size; }
     size_t getCapacity() const { return capacity; }
 };
+

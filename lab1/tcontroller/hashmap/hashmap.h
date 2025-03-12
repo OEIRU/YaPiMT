@@ -8,17 +8,17 @@ using namespace std;
 template <typename T>
 class HASHMAP {
 private:
-    struct Node {
+    struct NODE {
         string key;
         T value;
-        Node* next;
+        NODE* next;
 
-        Node(const string& k, const T& v) : key(k), value(v), next(nullptr) {}
+        NODE(const string& k, const T& v) : key(k), value(v), next(nullptr) {}
 
         string to_string();
     };
 
-    vector<Node*> buckets;
+    vector<NODE*> buckets;
     size_t capacity;
     size_t size;
     const double LOAD_FACTOR = 0.7;
@@ -26,8 +26,8 @@ private:
     size_t hash(const string& key);
     void rehash();
 public:
-    HASHMAP(size_t initialCapacity = 16)
-        : capacity(initialCapacity), size(0) {
+    HASHMAP(int initial_capacity = 16)
+        : capacity(initial_capacity), size(0) {
         buckets.resize(capacity);
     }
 
@@ -39,7 +39,4 @@ public:
     bool remove(const string& key);
     void clear();
     string to_string();
-
-    size_t getSize() const { return size; }
-    size_t getCapacity() const { return capacity; }
 };

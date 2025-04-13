@@ -1,0 +1,2 @@
+char a = 0;
+float bebra = 10.0;

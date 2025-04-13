@@ -1,3 +1,4 @@
-daw bool 2
+daw char 1
 fae char 2
 fff float 1
+x float 1

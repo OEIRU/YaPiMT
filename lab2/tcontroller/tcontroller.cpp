@@ -20,8 +20,8 @@ string type_to_string(BASE_TYPE type) {
 
 string TVARIABLE::to_string() {
     stringstream res;
-    res << type_to_string(type) << " "
-        // << index                 << " "
-        << scope;
+    res // << type_to_string(type) << " "
+        << index;//                << " "
+        // << scope;
     return res.str();
 }

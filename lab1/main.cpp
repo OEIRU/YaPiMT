@@ -1,5 +1,6 @@
 #include "tcontroller/tcontroller.h"
 #include <iostream>
+#include <stdio.h>
 
 void menu() {
     TCONTROLLER tcontroller;
@@ -19,7 +20,7 @@ void menu() {
     while (true) {
         switch (mode) {
         case 0:
-            cout << "Select tables to work with:\n 1. Statics\n 2. Dynamics\n > ";
+            cout << "Select tables to work with:\n 1. Statics\n 2. Dynamics\n> ";
             cin >> n;
             if (n == 1) mode = 1;
             else if (n == 2) mode = 2;
@@ -33,7 +34,7 @@ void menu() {
             else cout << "Error" << endl;
             break;
         case 2:
-            cout << "Operations:\n 1. Add\n 2. Search\n 3. Modify\n 0. Menu\n > ";
+            cout << "Operations:\n 1. Add\n 2. Modify\n 3. Search\n 0. Menu\n > ";
             cin >> n;
             if (n == 0) mode = 0;
             else if (n == 1) mode = 4;
@@ -42,34 +43,57 @@ void menu() {
             else cout << "Error\n";
             break;
         case 3:
-            cout    << "[hint] Table types: "
-                    << "ALPHABET: "     << TABLE_TYPE::ALPHABET     << ", "
-                    << "WORDS: "        << TABLE_TYPE::WORDS        << ", "
-                    << "OPERATORS: "    << TABLE_TYPE::OPERATORS    << ", "
-                    << "SYMBOLS: "      << TABLE_TYPE::SYMBOLS      << "." << endl;
+            cout << "[hint] Table types: "
+                << "ALPHABET: " << TABLE_TYPE::ALPHABET << ", "
+                << "WORDS: " << TABLE_TYPE::WORDS << ", "
+                << "OPERATORS: " << TABLE_TYPE::OPERATORS << ", "
+                << "SYMBOLS: " << TABLE_TYPE::SYMBOLS << "." << endl;
             cout << "Table type:\n > ";
             cin >> n;
-            cout << "What search:\n > ";
-            cin >> text;
-            bool res;
-            index = tcontroller.statics.search(static_cast<TABLE_TYPE>(n), text, res);
-            if (res) cout << "Index: " << index;
-            else cout << "Not found";
-            cout << endl;
+            if (n == 10 || n == 20 || n == 30 || n == 40) {
+                cout << "What search:\n > ";
+                cin.ignore();
+                getline(cin, text);
+                bool res;
+                index = tcontroller.statics.search(static_cast<TABLE_TYPE>(n), text, res);
+                if (res) cout << "Index: " << index;
+                else cout << "Not found";
+                cout << endl;
+            } else cout << "Error\n";
             mode = 0;
             break;
         case 4:
-            cout    << "Write in one line:\n [KEY] [TYPE] [SCOPE]\nwhere:\n"
-                    << " [KEY] - key" << endl
-                    << " [TYPE] - " << BASE_TYPE::BOOL << " (bool), " << BASE_TYPE::FLOAT << " (float) or " << BASE_TYPE::CHAR << " (char)" << endl
-                    << " [SCOPE] - scope" << endl;
+            cout << "Write in one line:\n [KEY] [TYPE] [SCOPE]\nwhere:\n"
+                << " [KEY] - key" << endl
+                << " [TYPE] - " << BASE_TYPE::BOOL << " (bool), " << BASE_TYPE::FLOAT << " (float) or " << BASE_TYPE::CHAR << " (char)" << endl
+                << " [SCOPE] - scope" << endl;
             int type, scope;
             cin >> key >> type >> scope;
-            tcontroller.dynamics.init(key, static_cast<BASE_TYPE>(type), scope);
-            cout << "Added" << endl;
+            try {
+                tcontroller.dynamics.init(key, static_cast<BASE_TYPE>(type), scope);
+                cout << "Added" << endl;
+            }
+            catch (const exception& e) {
+                cerr << e.what() << endl;
+            }
             mode = 2;
             break;
         case 5:
+            cout << "Write in one line: [KEY] [NEW_TYPE] [NEW_SCOPE]\nwhere:\n"
+                << " [KEY] - key" << endl
+                << " [NEW_TYPE] - " << BASE_TYPE::BOOL << " (bool), " << BASE_TYPE::FLOAT << " (float) or " << BASE_TYPE::CHAR << " (char)" << endl
+                << " [NEW_SCOPE] - scope" << endl;
+            int new_type, new_scope;
+            cin >> key >> new_type >> new_scope;
+            try {
+                tcontroller.dynamics.modify(key, static_cast<BASE_TYPE>(new_type), new_scope);
+            }
+            catch (const exception& e) {
+                cerr << e.what() << endl;
+            }
+            mode = 2;
+            break;
+        case 6:
             cout << "Enter key:\n > ";
             cin >> text;
             bool found;

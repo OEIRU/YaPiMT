@@ -31,6 +31,10 @@ void STATIC_TCONTROLLER::load_static_table(TABLE_TYPE ttype, const string& filen
     file.close();
 }
 
+const string& STATIC_TCONTROLLER::get(TABLE_TYPE ttype, int index) {
+    return get_table(ttype)[index];
+}
+
 int STATIC_TCONTROLLER::search(TABLE_TYPE ttype, const string& element) {
     vector<string>& table = get_table(ttype);
     return binary_search(table, element);
@@ -49,6 +53,7 @@ vector<string>& STATIC_TCONTROLLER::get_table(TABLE_TYPE ttype) {
         case TABLE_TYPE::WORDS: return words;
         case TABLE_TYPE::OPERATORS: return operators;
         case TABLE_TYPE::SYMBOLS: return symbols;
+        case TABLE_TYPE::NUMBERS: return numbers;
     }
 
     throw runtime_error("Unknown table");

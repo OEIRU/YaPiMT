@@ -12,11 +12,13 @@ void DYNAMIC_TCONTROLLER::setup_file(string file_name) {
     file.open(file_name);
     while (file.peek() != EOF) {
         string key, type;
-        int scope;
+        int scope, index;
 
-        file >> key >> type >> scope;
+        // file >> key >> type >> scope;
+        file >> key >> index;
         if (key != "")
-            init(key, type_from_string(type), scope);
+            init(key, index);
+            // init(key, type_from_string(type), scope);
     }
     file.clear();
 
@@ -53,6 +55,24 @@ void DYNAMIC_TCONTROLLER::init(string name, BASE_TYPE type, unsigned long scope)
         file << name << " " << tvariable.to_string() << endl;
         file.flush();
     }
+}
+
+TVARIABLE& DYNAMIC_TCONTROLLER::init(string name, int index) {
+    if (contains(name)) {
+        throw variable_exception("cannot redeclare variable");
+    }
+    TVARIABLE tvariable;
+    tvariable.index = index == -1 ? last_index : index;
+    last_index += 1;
+
+    tvariables.insert(name, tvariable);
+
+    if (!insert_mode) {
+        file << name << " " << tvariable.to_string() << endl;
+        file.flush();
+    }
+
+    return tvariables.get(name);
 }
 
 bool DYNAMIC_TCONTROLLER::contains(const string& element) {
